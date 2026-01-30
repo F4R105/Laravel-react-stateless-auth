@@ -24,6 +24,7 @@ export function AuthContextProvider({ children }) {
                 headers: {
                     'Authorization': `Bearer ${authToken}`,
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
             });
 
@@ -43,6 +44,7 @@ export function AuthContextProvider({ children }) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             body: JSON.stringify(formData)
         })
@@ -65,6 +67,7 @@ export function AuthContextProvider({ children }) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             body: JSON.stringify(formData)
         })
@@ -85,6 +88,7 @@ export function AuthContextProvider({ children }) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             body: JSON.stringify(formData)
         })
