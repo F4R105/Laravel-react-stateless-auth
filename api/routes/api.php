@@ -2,7 +2,7 @@
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
@@ -10,9 +10,10 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/login', function (Request $request) {
-    $credentials = $request->only('email', 'password');
 
-    if (!Auth::attempt($credentials)) {
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user || !Hash::check($request->password, $user->password)) {
         return response()->json(['message' => 'Invalid credentials'], 401);
     }
 
@@ -28,14 +29,12 @@ Route::post('/register', function (Request $request) {
     $user = User::create($data);
     $token = $user->createToken('auth-token')->plainTextToken;
 
-    Auth::login($user);
-
     return response()->json(['token' => $token, 'message' => 'Registered successfully']);
 });
 
-Route::post('/logout', function () {
+Route::post('/logout', function (Request $request) {
 
-    Auth::logout();
+    $request->user()->currentAccessToken()->delete();
 
     return response()->json(['message' => 'Logged out successfully']);
-});
+})->middleware('auth:sanctum');
