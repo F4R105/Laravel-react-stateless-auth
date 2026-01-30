@@ -3,7 +3,7 @@
 ## Description
 ### Laravel
 ### React
-- Not using react router, using NavigationContext instead
+- Using react router
 - Saves token in LocalStorage
 
 ## How to Run 
