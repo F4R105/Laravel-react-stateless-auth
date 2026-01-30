@@ -1,16 +1,14 @@
 import './App.css'
 import { AuthContextProvider } from './contexts/AuthContext'
-import { NavigationContextProvider } from './contexts/NavigationContext'
-import Router from './Router'
+import router from './Router'
+import { RouterProvider } from 'react-router'
 
 function App() {
 
   return (
-    <NavigationContextProvider>
-      <AuthContextProvider>
-        <Router />
-      </AuthContextProvider>
-    </NavigationContextProvider>
+    <AuthContextProvider>
+      <RouterProvider router={router} />
+    </AuthContextProvider>
   )
 }
 

@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react'
 import Navbar from '../components/Navbar'
-import useNavigationContext from '../contexts/NavigationContext'
 import useAuthContext from '../contexts/AuthContext'
+import { useNavigate } from 'react-router'
 
 function Dashboard() {
   const { user } = useAuthContext()
-  const { currentPage, navigateTo } = useNavigationContext()
+ const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) navigateTo('login')
-  }, [currentPage])
+    if (!user) navigate('/login')
+  },[])
 
   return (
     <>

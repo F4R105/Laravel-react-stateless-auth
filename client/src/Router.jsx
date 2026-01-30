@@ -1,25 +1,27 @@
-import React from 'react'
-import useNavigationContext from './contexts/NavigationContext'
 import Home from './pages/Home'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 
-function Router() {
-    const { currentPage } = useNavigationContext()
+import { createBrowserRouter } from 'react-router'
 
-    switch (currentPage) {
-        case 'home':
-            return <Home />
-        case 'login':
-            return <Login />
-        case 'register':
-            return <Register />
-        case 'dashboard':
-            return <Dashboard />
-        default:
-            return <Home />
-    }
-}
+const router = createBrowserRouter([
+    {
+        path: "/home",
+        element: <Home />
+    },
+    {
+        path: "/register",
+        element: <Register />
+    },
+    {
+        path: "/dashboard",
+        element: <Dashboard />
+    },
+    {
+        path: "/login",
+        element: <Login />
+    },
+])
 
-export default Router
+export default router

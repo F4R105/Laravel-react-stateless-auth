@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import Navbar from '../components/Navbar'
-import useNavigationContext from '../contexts/NavigationContext'
 import useAuthContext from '../contexts/AuthContext';
+import { useNavigate } from 'react-router';
 
 function Home() {
-  const { navigateTo } = useNavigationContext();
+  const navigate = useNavigate();
   const { user } = useAuthContext();
 
   useEffect(() => {
-    if (user) navigateTo('dashboard');
+    if (user) navigate('/dashboard');
   }, [])
 
   return (

@@ -1,20 +1,24 @@
 import React, { useRef } from 'react'
 import Navbar from '../components/Navbar'
-import useAuthContext from '../contexts/AuthContext';
+import useAuthContext from '../contexts/AuthContext'
+import { useNavigate } from 'react-router'
 
 function Login() {
-  const { login } = useAuthContext();
+  const { login } = useAuthContext()
+  const navigate = useNavigate()
 
   const emailRef = useRef()
   const passwordRef = useRef()
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
 
-    login({
+    await login({
       email: emailRef.current.value, 
       password: passwordRef.current.value
     })
+
+    navigate('/Dashboard')
   }
 
   return (

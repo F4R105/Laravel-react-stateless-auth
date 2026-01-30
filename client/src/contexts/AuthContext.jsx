@@ -1,19 +1,22 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import useNavigationContext from './NavigationContext'
+import { 
+    createContext, 
+    useContext, 
+    useEffect, 
+    useState 
+} from 'react'
 
 const AuthContext = createContext()
 
 export function AuthContextProvider({ children }) {
     const [user, setUser] = useState(null)
-    const { navigateTo } = useNavigationContext()
+    const [loading, setLoading] = useState(true)
 
     const getUser = async () => {
-        const authToken = localStorage.getItem('authToken');
+        const authToken = localStorage.getItem('authToken')
 
         if (!authToken) {
-            console.log('No token found. User is not authenticated.');
-            navigateTo('login');
-            return;
+            console.log('No token found. User is not authenticated.')
+            return
         }
 
         try {
@@ -25,13 +28,13 @@ export function AuthContextProvider({ children }) {
             });
 
             if (response.ok) {
-                const userData = await response.json();
-                return userData;
+                const userData = await response.json()
+                return userData
             } else {
-                console.error('Failed to get user data:', response.statusText);
+                console.error('Failed to get user data:', response.statusText)
             }
         } catch (error) {
-            console.error('Network error:', error);
+            console.error('Network error:', error)
         }
     }
 
@@ -47,11 +50,10 @@ export function AuthContextProvider({ children }) {
         if (response.ok) {
             const data = await response.json()
             console.log('Registration successful:', data)
-            localStorage.setItem('authToken', data.token);
+            localStorage.setItem('authToken', data.token)
             const user = await getUser()
             console.log('user ->', user)
             setUser(user)
-            navigateTo('dashboard')
         } else {
             const error = await response.json()
             console.error('Registration failed:', error)
@@ -68,14 +70,13 @@ export function AuthContextProvider({ children }) {
         })
 
         if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('authToken', data.token);
-            const user = await getUser();
-            setUser(user);
-            navigateTo('dashboard');
+            const data = await response.json()
+            localStorage.setItem('authToken', data.token)
+            const user = await getUser()
+            setUser(user)
         } else {
-            const error = await response.json();
-            console.error('Login failed:', error);
+            const error = await response.json()
+            console.error('Login failed:', error)
         }
     }
 
@@ -92,7 +93,6 @@ export function AuthContextProvider({ children }) {
             const data = await response.json()
             localStorage.removeItem('authToken')
             setUser(null)
-            navigateTo('home')
             console.log('Logout successful:', data)
         } else {
             const error = await response.json()
@@ -103,11 +103,9 @@ export function AuthContextProvider({ children }) {
     const validateAuth = async () => {
         const user = await getUser();
         if (user){
-            setUser(user);
-            navigateTo('dashboard');
-            return;
-        } 
-        navigateTo('home');
+            setUser(user)
+            return
+        }
     }
 
     useEffect(() => {
@@ -115,7 +113,7 @@ export function AuthContextProvider({ children }) {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ register, login, logout, user }}>
+        <AuthContext.Provider value={{ register, login, logout, user, loading }}>
             {children}
         </AuthContext.Provider>
     )
